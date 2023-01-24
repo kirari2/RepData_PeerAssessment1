@@ -33,7 +33,7 @@ For this part of the assignment, you can ignore the missing values in the datase
 - Calculate the total number of steps taken per day
 ```{r}
 library(dplyr)
-df %>% 
+df %>%
         group_by(date) %>% 
         summarise(total_steps = sum(steps, na.rm = TRUE))
 ```
@@ -45,17 +45,17 @@ df %>%
         group_by(date) %>% 
         summarise(total_steps = sum(steps, na.rm = TRUE)) %>% 
                 ggplot(aes(total_steps)) +
-                        geom_histogram(bins = 50) +
+                        geom_histogram(bins = 10) +
                         labs(x = "Total number of steps taken each day",
                              y = "Count")
 ```
-
+3. Mean and median number of steps taken each day
 - Calculate and report the mean and median of the total number of steps taken per day
 ```{r}
-df %>% 
+df1 <- df %>% 
         group_by(date) %>% 
-        summarise(total_steps = sum(steps, na.rm = TRUE)) %>% 
-        summarise(mean(total_steps), median(total_steps))
+        summarise(total_steps = sum(steps, na.rm = TRUE))
+print(paste("The mean and median number of steps taken each day are", round(mean(df1$total_steps)), "and", median(df1$total_steps), "respectively."))
 ```
 
 4. Time series plot of the average number of steps taken
@@ -76,7 +76,7 @@ plot(df2$interval, df2$avg_step,
 - Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
 ```{r}
-df2[which.max(df2$avg_step), ]
+print(paste("The 5-Minute interval that contained the most steps on average is", df2[which.max(df2$avg_step), ]$interval, "with",  round(df2[which.max(df2$avg_step), ]$avg_step), "steps."))
 ```
 
 6. Code to describe and show a strategy for imputing missing data
@@ -87,6 +87,7 @@ NA). The presence of missing days may introduce bias into some calculations or s
 - Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
 ```{r}
 colSums(is.na(df))
+print(paste("There was", colSums(is.na(df))[1], "rows contained NA."))
 ```
 
 - Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
@@ -115,7 +116,7 @@ df3 %>%
         group_by(date) %>% 
         summarise(total_steps = sum(steps, na.rm = TRUE)) %>% 
                 ggplot(aes(total_steps)) +
-                        geom_histogram(bins = 50) +
+                        geom_histogram(bins = 10) +
                         labs(x = "Total number of steps taken each day",
                              y = "Count")
 ```
